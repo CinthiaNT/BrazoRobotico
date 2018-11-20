@@ -12,12 +12,10 @@ package brazorobotico;
  * Martes 13 de Noviembre del 2018
  * Semestre Agosto - Diciembre 
  */
-public class BrazoRobotico {
-
-    
-    public static void main(String[] args) {
-        AppBrazoRobotico brazo = new AppBrazoRobotico();
-        brazo.lanzar();
+public class Lista {
+     
+     String secuencia;
+ public Lista(String secuencia) {
+     this.secuencia= secuencia;
     }
-    
 }
