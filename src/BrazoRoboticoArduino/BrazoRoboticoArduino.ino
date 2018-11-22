@@ -153,25 +153,59 @@ void arriba(char entrada) {
 
   if (entrada == '3') {
     for (; valor_pinza >= 0; valor_pinza--) {
+            val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+          break;
+      }else{
       pinza.write(valor_pinza);
       delay(5);
       digitalWrite(ledServo4, HIGH);
+      }
+      
+      
     }
     digitalWrite(ledServo4, LOW);
   }
   if (entrada == '5') {
       for (; valor_hombro <= 180; valor_hombro++) {
+      val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+          break;
+      }else{
         hombro.write(valor_hombro);
         delay(5);
         digitalWrite(ledServo2, HIGH);
       }
+      }
     digitalWrite(ledServo2, LOW);
   }
   if (entrada == '7') {
-    for (; valor_codo >= 90; valor_codo--) {
+    for (; valor_codo >= 85; valor_codo--) {
+      val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+        break;
+      }else{
       codo.write(valor_codo);
       delay(5);
       digitalWrite(ledServo3, HIGH);
+      }
+      
+      
     }
   }
   digitalWrite(ledServo3, LOW);
@@ -242,28 +276,61 @@ void abajo(char entrada) {
   }
   if (entrada == '4') {
     for (; valor_pinza <= 120; valor_pinza++) {
+            val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+          break;
+      }else{
       pinza.write(valor_pinza);
       delay(5);
       digitalWrite(ledServo4, HIGH);
+      }
+      
     }
     digitalWrite(ledServo4, LOW);
   }
   if (entrada == '6') {
     for (; valor_hombro >= 90; valor_hombro--) {
+      val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+        break;
+      }else{
       hombro.write(valor_hombro);
       delay(5);
-      digitalWrite(ledServo2, HIGH);
+      digitalWrite(ledServo2, HIGH);  
+      }      
     }
     digitalWrite(ledServo2, LOW);
   }
   if (entrada == '8') {
     for (; valor_codo <= 180; valor_codo++) {
-      codo.write(valor_codo);
+            val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+      break;
+      }else{
+        codo.write(valor_codo);
       delay(5);
       digitalWrite(ledServo3, HIGH);
+      }
+      
     }
+    digitalWrite(ledServo3, LOW);
   }
-  digitalWrite(ledServo3, LOW);
+  
 }
 
 void automatico() {
@@ -330,20 +397,50 @@ void automatico() {
 void giroDer(char entrada){
 
   if(entrada == 'C'){
-    digitalWrite(ledPasos, HIGH);
-    vuelta.step(512);
+      val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+      digitalWrite(ledPasos, LOW);
+      }else{
+      digitalWrite(ledPasos, HIGH);
+      vuelta.step(512);
+      }    
     digitalWrite(ledPasos, LOW);
-  delay(500);
+    delay(500);
   }else if(entrada == 'D'){
+          val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+       digitalWrite(ledPasos, LOW);
+      }else{
     digitalWrite(ledPasos, HIGH);
     vuelta.step(1024);
+      }
     digitalWrite(ledPasos, LOW);
     delay(500);
   }else if(entrada == 'E'){
-    digitalWrite(ledPasos, HIGH);
-    vuelta.step(2048);
-    digitalWrite(ledPasos, LOW);
-    delay(500);
+          val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+          digitalWrite(ledPasos, LOW);
+      }else{
+      digitalWrite(ledPasos, HIGH);
+      vuelta.step(2048);
+      }
+      digitalWrite(ledPasos, LOW);
+      delay(500);
   } 
   
 }
@@ -351,20 +448,51 @@ void giroDer(char entrada){
 void giroIzq(char entrada){
 
   if(entrada == 'F'){
-    digitalWrite(ledPasos, HIGH);
-    vuelta.step(-512);
-    digitalWrite(ledPasos, LOW);
-  delay(1000);
+      val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+      digitalWrite(ledPasos, LOW);
+      }else{
+      digitalWrite(ledPasos, HIGH);
+      vuelta.step(-512);
+      }   
+      digitalWrite(ledPasos, LOW);
+      delay(500);
   }else if(entrada == 'G'){
-    digitalWrite(ledPasos, HIGH);
-    vuelta.step(-1024);
+      val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+        digitalWrite(ledPasos, LOW);
+      }else{
+        digitalWrite(ledPasos, HIGH);
+        vuelta.step(-1024);
+      }  
     digitalWrite(ledPasos, LOW);
-    delay(1000);
+    delay(500);
   }else if(entrada == 'H'){
-    digitalWrite(ledPasos, HIGH);
-    vuelta.step(-2048);
-    digitalWrite(ledPasos, LOW);
-    delay(1000);
+          val= digitalRead(boton); // lee el estado del Boton
+      if ((val == HIGH) && (old_val == LOW)){
+          state=1-state;
+          delay(10);
+      }
+      old_val = val; // valor del antiguo estado
+      if (state==1){
+      digitalWrite(ledPasos, LOW);
+      }else{
+      digitalWrite(ledPasos, HIGH);
+      vuelta.step(-2048);
+  
+      }
+      digitalWrite(ledPasos, LOW);   
+      delay(500);
   }
   
 }

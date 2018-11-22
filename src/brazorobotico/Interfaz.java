@@ -3,9 +3,7 @@ package brazorobotico;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileDescriptor;
 import java.io.OutputStream;
-import java.util.Enumeration;
 import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,8 +26,8 @@ public class Interfaz extends JFrame {
 
     private JButton cerrar_pinza, abrir_pinza, derecha_muneca, izquierda_muneca,
             bajar_codo, cerrar_codo, bajar_hombro, subir_hombro,
-            generar, automatico, borrar, restablecer,pasos_90,pasos_180,pasos_360,
-            pasos_derecha,pasos_izquierda;
+            generar, automatico, borrar, restablecer, pasos_90, pasos_180, pasos_360,
+            pasos_derecha, pasos_izquierda;
     private JPanel panel;
     private String der, izq, cer, abri, abC, abH, arC, arH;
     private OutputStream ouput;
@@ -51,9 +49,7 @@ public class Interfaz extends JFrame {
             public void serialEvent(SerialPortEvent spe) {
                 try {
                     if (multi.dataReceptionCompleted()) {
-//                        lblTemp.setText("Temperatura: " + multi.getMessage(0) + "°C");
-//                        lblHumedad.setText("Humedad: " + multi.getMessage(1) + "%");
-//                        lblLum.setText("Luminosidad: " + multi.getMessage(2) + "");
+
                     }
                 } catch (ArduinoException ex) {
                     Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,11 +119,11 @@ public class Interfaz extends JFrame {
         automatico.setBounds(50, 450, 210, 50);
         generar.setBounds(350, 450, 210, 50);
         borrar.setBounds(600, 450, 210, 50);
-        pasos_90.setBounds(50,380,110,50);
-        pasos_180.setBounds(200,380,110,50);
+        pasos_90.setBounds(50, 380, 110, 50);
+        pasos_180.setBounds(200, 380, 110, 50);
         pasos_360.setBounds(350, 380, 110, 50);
-        pasos_izquierda.setBounds(600,380,70,50);
-        pasos_derecha.setBounds(680,380,70,50);
+        pasos_izquierda.setBounds(600, 380, 70, 50);
+        pasos_derecha.setBounds(680, 380, 70, 50);
         add(pasos_derecha);
         add(pasos_izquierda);
         add(pasos_90);
@@ -383,97 +379,93 @@ public class Interfaz extends JFrame {
                 giro = "noventa";
             }
         });
-         pasos_180.addActionListener(new ActionListener() {
+        pasos_180.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 giro = "ciento";
             }
         });
-          pasos_360.addActionListener(new ActionListener() {
+        pasos_360.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 giro = "trescientos";
             }
         });
-          
+
         pasos_derecha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(giro!= null){
+                if (giro != null) {
                     String var_grado = "";
-                    if(giro.equals("noventa")){
+                    if (giro.equals("noventa")) {
                         var_grado = "C";
-                    }else if(giro.equals("ciento")){
+                    } else if (giro.equals("ciento")) {
                         var_grado = "D";
-                    }else if(giro.equals("trescientos")){
+                    } else if (giro.equals("trescientos")) {
                         var_grado = "E";
                     }
-                if (gem == true) {
-                    sec = var_grado;
-                    lista.add(new Lista(sec));
-                    try {
-                        arduino.sendData(var_grado);
-                    } catch (ArduinoException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SerialPortException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    if (gem == true) {
+                        sec = var_grado;
+                        lista.add(new Lista(sec));
+                        try {
+                            arduino.sendData(var_grado);
+                        } catch (ArduinoException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SerialPortException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        try {
+                            arduino.sendData(var_grado);
+                        } catch (ArduinoException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SerialPortException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 } else {
-                    try {
-                        arduino.sendData(var_grado);
-                    } catch (ArduinoException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SerialPortException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }else{
-                    JOptionPane.showMessageDialog(null, "Elige el grado de giro a realizar");
-                }
-            }
-        });  
-        
-        pasos_izquierda.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(giro!= null){
-                    String var_grado = "";
-                    if(giro.equals("noventa")){
-                        var_grado = "F";
-                    }else if(giro.equals("ciento")){
-                        var_grado = "G";
-                    }else if(giro.equals("trescientos")){
-                        var_grado = "H";
-                    }
-                if (gem == true) {
-                    sec = var_grado;
-                    lista.add(new Lista(sec));
-                    try {
-                        arduino.sendData(var_grado);
-                    } catch (ArduinoException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SerialPortException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    try {
-                        arduino.sendData(var_grado);
-                    } catch (ArduinoException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SerialPortException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }else{
                     JOptionPane.showMessageDialog(null, "Elige el grado de giro a realizar");
                 }
             }
         });
-        
-          
-          
-          
-          
+
+        pasos_izquierda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (giro != null) {
+                    String var_grado = "";
+                    if (giro.equals("noventa")) {
+                        var_grado = "F";
+                    } else if (giro.equals("ciento")) {
+                        var_grado = "G";
+                    } else if (giro.equals("trescientos")) {
+                        var_grado = "H";
+                    }
+                    if (gem == true) {
+                        sec = var_grado;
+                        lista.add(new Lista(sec));
+                        try {
+                            arduino.sendData(var_grado);
+                        } catch (ArduinoException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SerialPortException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        try {
+                            arduino.sendData(var_grado);
+                        } catch (ArduinoException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SerialPortException ex) {
+                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Elige el grado de giro a realizar");
+                }
+            }
+        });
+
         generar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -484,15 +476,15 @@ public class Interfaz extends JFrame {
         borrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    try {
-                        arduino.sendData("X");
-                    } catch (ArduinoException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SerialPortException ex) {
-                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    lista.clear();
-                    gem=false;
+                try {
+                    arduino.sendData("X");
+                } catch (ArduinoException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SerialPortException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                lista.clear();
+                gem = false;
             }
         });
         automatico.addActionListener(new ActionListener() {
@@ -500,13 +492,13 @@ public class Interfaz extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (gem == true) {
                     try {
-                            arduino.sendData("9");
-                        } catch (ArduinoException ex) {
-                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (SerialPortException ex) {
-                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    
+                        arduino.sendData("9");
+                    } catch (ArduinoException ex) {
+                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SerialPortException ex) {
+                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                     for (int i = 0; i < lista.size(); i++) {
                         try {
                             arduino.sendData(lista.get(i).secuencia);
@@ -515,15 +507,14 @@ public class Interfaz extends JFrame {
                         } catch (SerialPortException ex) {
                             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        gem=false;
+                        gem = false;
                     }
-                }else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Genera una secuencia");
                 }
             }
         });
     }
-    
 
     public static void main(String[] args) {
         Interfaz obj = new Interfaz();
