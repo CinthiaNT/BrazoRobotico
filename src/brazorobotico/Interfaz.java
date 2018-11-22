@@ -491,6 +491,8 @@ public class Interfaz extends JFrame {
                     } catch (SerialPortException ex) {
                         Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    lista.clear();
+                    gem=false;
             }
         });
         automatico.addActionListener(new ActionListener() {
@@ -504,9 +506,8 @@ public class Interfaz extends JFrame {
                         } catch (SerialPortException ex) {
                             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                    
                     for (int i = 0; i < lista.size(); i++) {
-                        System.out.println(lista.get(i).secuencia);
-                        //enviarDatos(lista.get(i).secuencia);
                         try {
                             arduino.sendData(lista.get(i).secuencia);
                         } catch (ArduinoException ex) {
@@ -514,17 +515,10 @@ public class Interfaz extends JFrame {
                         } catch (SerialPortException ex) {
                             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
+                        gem=false;
                     }
-                  
-                } else {
-                    try {
-                            arduino.sendData("9");
-                        } catch (ArduinoException ex) {
-                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (SerialPortException ex) {
-                            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                }else {
+                    JOptionPane.showMessageDialog(null, "Genera una secuencia");
                 }
             }
         });
