@@ -14,9 +14,12 @@ import javax.swing.JPanel;
 import com.panamahitek.PanamaHitek_Arduino;
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_MultiMessage;
+import java.awt.Font;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -29,10 +32,12 @@ public class Interfaz extends JFrame {
             generar, automatico, borrar, restablecer, pasos_90, pasos_180, pasos_360,
             pasos_derecha, pasos_izquierda;
     private JPanel panel;
+    private JLabel imagen,base,titulo;
     private String der, izq, cer, abri, abC, abH, arC, arH;
     private OutputStream ouput;
     private String puerto;
     private int time, dataRate;
+    private Font fuente,fuente1;
     private boolean con, gem;
     String sec, alin_mun, giro;
     LinkedList<Lista> lista = new LinkedList<>();
@@ -41,7 +46,7 @@ public class Interfaz extends JFrame {
     static PanamaHitek_MultiMessage multi;
 
     public Interfaz() {
-        super("Control");
+        super("Brazo Robotico");
         arduino = new PanamaHitek_Arduino();
         multi = new PanamaHitek_MultiMessage(3, arduino);
         listener = new SerialPortEventListener() {
@@ -66,6 +71,8 @@ public class Interfaz extends JFrame {
         }
         gem = false;
         sec = "";
+        fuente = new Font("Arial", Font.BOLD, 20);
+        fuente1 = new Font("Arial", Font.BOLD, 15);
         setLayout(null);
         puerto = "/dev/ttyACM0";
         time = 2000;
@@ -73,11 +80,14 @@ public class Interfaz extends JFrame {
         dataRate = 9600;
         ouput = null;
         panel = new JPanel(null);
+        imagen = new JLabel(new ImageIcon("src/imagenes/brazo.png"));
+        base = new JLabel("Base");
+        titulo = new JLabel("Brazo Robotico");
         borrar = new JButton("Borrar secuencia");
         cerrar_pinza = new JButton("Cerrar Pinza");
         generar = new JButton("Generar secuencia");
         abrir_pinza = new JButton("Abrir pinza");
-        izquierda_muneca = new JButton("MUñeca a la izquierda");
+        izquierda_muneca = new JButton("Muñeca a la izquierda");
         subir_hombro = new JButton("Subir Hombro");
         bajar_hombro = new JButton("Bajar Hombro");
         derecha_muneca = new JButton("Muñeca a la derecha");
@@ -90,23 +100,60 @@ public class Interfaz extends JFrame {
         pasos_360 = new JButton("Gira 360°");
         pasos_derecha = new JButton(">");
         pasos_izquierda = new JButton("<");
-        borrar.setBackground(Color.lightGray);
-        cerrar_pinza.setBackground(Color.lightGray);
-        abrir_pinza.setBackground(Color.lightGray);
-        izquierda_muneca.setBackground(Color.lightGray);
-        subir_hombro.setBackground(Color.lightGray);
-        bajar_hombro.setBackground(Color.lightGray);
-        derecha_muneca.setBackground(Color.lightGray);
-        restablecer.setBackground(Color.lightGray);
-        bajar_codo.setBackground(Color.lightGray);
-        cerrar_codo.setBackground(Color.lightGray);
-        pasos_90.setBackground(Color.lightGray);
-        pasos_180.setBackground(Color.lightGray);
-        pasos_360.setBackground(Color.lightGray);
-        pasos_izquierda.setBackground(Color.lightGray);
-        pasos_derecha.setBackground(Color.lightGray);
-        automatico.setBackground(Color.WHITE);
-        generar.setBackground(Color.WHITE);
+        this.getContentPane().setBackground(Color.WHITE);
+        titulo.setFont(fuente);
+        borrar.setBackground(Color.DARK_GRAY);
+        borrar.setFont(fuente1);
+        borrar.setForeground(Color.WHITE);
+        cerrar_pinza.setBackground(Color.DARK_GRAY);
+        cerrar_pinza.setFont(fuente1);
+        cerrar_pinza.setForeground(Color.WHITE);
+        abrir_pinza.setBackground(Color.DARK_GRAY);
+        abrir_pinza.setFont(fuente1);
+        abrir_pinza.setForeground(Color.WHITE);
+        izquierda_muneca.setBackground(Color.DARK_GRAY);
+        izquierda_muneca.setFont(fuente1);
+        izquierda_muneca.setForeground(Color.WHITE);
+        subir_hombro.setBackground(Color.DARK_GRAY);
+        subir_hombro.setFont(fuente1);
+        subir_hombro.setForeground(Color.WHITE);
+        bajar_hombro.setBackground(Color.DARK_GRAY);
+        bajar_hombro.setFont(fuente1);
+        bajar_hombro.setForeground(Color.WHITE);
+        derecha_muneca.setBackground(Color.DARK_GRAY);
+        derecha_muneca.setFont(fuente1);
+        derecha_muneca.setForeground(Color.WHITE);
+        restablecer.setBackground(Color.DARK_GRAY);
+        restablecer.setFont(fuente1);
+        restablecer.setForeground(Color.WHITE);
+        bajar_codo.setBackground(Color.DARK_GRAY);
+        bajar_codo.setFont(fuente1);
+        bajar_codo.setForeground(Color.WHITE);
+        cerrar_codo.setBackground(Color.DARK_GRAY);
+        cerrar_codo.setFont(fuente1);
+        cerrar_codo.setForeground(Color.WHITE);
+        pasos_90.setBackground(Color.DARK_GRAY);
+        pasos_90.setFont(fuente1);
+        pasos_90.setForeground(Color.WHITE);
+        pasos_180.setBackground(Color.DARK_GRAY);
+        pasos_180.setFont(fuente1);
+        pasos_180.setForeground(Color.WHITE);
+        pasos_360.setBackground(Color.DARK_GRAY);
+        pasos_360.setFont(fuente1);
+        pasos_360.setForeground(Color.WHITE);
+        pasos_izquierda.setBackground(Color.DARK_GRAY);
+        pasos_izquierda.setFont(fuente1);
+        pasos_izquierda.setForeground(Color.WHITE);
+        pasos_derecha.setBackground(Color.DARK_GRAY);
+        pasos_derecha.setFont(fuente1);
+        pasos_derecha.setForeground(Color.WHITE);
+        automatico.setBackground(Color.DARK_GRAY);
+        automatico.setFont(fuente1);
+        automatico.setForeground(Color.WHITE);
+        generar.setBackground(Color.DARK_GRAY);
+        generar.setFont(fuente1);
+        generar.setForeground(Color.WHITE);
+        titulo.setBounds(50, 20, 200, 50);
         abrir_pinza.setBounds(50, 150, 210, 50);
         cerrar_pinza.setBounds(350, 150, 210, 50);
         izquierda_muneca.setBounds(50, 75, 210, 50);
@@ -119,12 +166,17 @@ public class Interfaz extends JFrame {
         automatico.setBounds(50, 450, 210, 50);
         generar.setBounds(350, 450, 210, 50);
         borrar.setBounds(600, 450, 210, 50);
-        pasos_90.setBounds(50, 380, 110, 50);
-        pasos_180.setBounds(200, 380, 110, 50);
-        pasos_360.setBounds(350, 380, 110, 50);
+        base.setBounds(50,350,100,30);
+        base.setFont(fuente1);
+        pasos_90.setBounds(100, 380, 110, 50);
+        pasos_180.setBounds(250, 380, 110, 50);
+        pasos_360.setBounds(400, 380, 110, 50);
         pasos_izquierda.setBounds(600, 380, 70, 50);
         pasos_derecha.setBounds(680, 380, 70, 50);
+        imagen.setBounds(830, 130, 430, 266);
+        add(titulo);
         add(pasos_derecha);
+        add(base);
         add(pasos_izquierda);
         add(pasos_90);
         add(pasos_180);
@@ -142,6 +194,7 @@ public class Interfaz extends JFrame {
         add(automatico);
         add(generar);
         add(borrar);
+        add(imagen);
         //  Conection();
         izquierda_muneca.addActionListener(new ActionListener() {
             @Override
@@ -519,7 +572,7 @@ public class Interfaz extends JFrame {
     public static void main(String[] args) {
         Interfaz obj = new Interfaz();
         obj.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        obj.setSize(950, 600);
+        obj.setSize(1250, 600);
         obj.setLocation(250, 50);
         obj.setResizable(false);
         obj.setVisible(true);
