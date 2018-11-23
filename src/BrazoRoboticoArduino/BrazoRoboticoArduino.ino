@@ -1,76 +1,127 @@
-//SE incluyen las librerias necesarias
-#include <Wire.h>
+/*Autores: Gonzalez Alcaraz Hernan Arturo
+ *         Nava Torres Juana Cinthia Lizbeth
+ *         Padilla Guerrero Paul Adrian
+ *
+ * SE incluyen las librerias necesarias
+  Libreria EEPROM: Sirve para almacenar en memoria.
+  Libreria Servo: Sirve para controlar el funcionamiento
+                  de los servo motores
+  Stepper: Sirve para controlar el motor a pasos
+ */
 #include <EEPROM.h>
 #include <Servo.h>
 #include <Stepper.h>
 
-///Boton
-int val = 0; //val se emplea para almacenar el estado del boton
-int state = 0; // 0 Robot mientras que 0 encendido
-int old_val = 0; // almacena el antiguo valor de val
+/*
+ * Definicion de variables a utilizar para
+ * controlar el funcionamiento del boton
+ */
+int val = 0; // Almacena el valor actual del boton
+int state = 0; // Almacena el estado del robot: 0 cuando el robot esta funcionando
+int old_val = 0; // Almacena el valor antiguo del boton
 
 
-//Se inicializan los 4 servos a utilizar
-Servo muneca; // Muñeca
-Servo hombro; // Hombro
-Servo codo; // Codo
-Servo pinza; // PInza
+/*Se inicializan los servo motores utilizados:
+ * muneca corresponde al servo que mueve la muñeca del brazo robotico
+ * hombro corresponde al servo que mueve el hombro del brazo robotico
+ * codo corresponde al servo que mueve el codo del brazo robotico
+ * pinza corresponde al servo que mueve la pinza del brazo robotico
+ * 
+ */
+Servo muneca;
+Servo hombro;
+Servo codo; 
+Servo pinza;
 Stepper vuelta(2048,2,4,3,5);
 
-int input;
-int valor_muneca = 90; //valor del servo 1
-int valor_hombro = 90; //valor del servo 2
-int valor_codo = 90; //valor del servo 3
-int valor_pinza = 90; //valor del servo 4
-int estado;
-int eepromEntrada; //
-int eepromAngulo; //
+int input; //Guarda el identificador de cada motor 
+int valor_muneca = 90; //valor inicial del servo muneca
+int valor_hombro = 90; //valor inicial del servo hombro
+int valor_codo = 90; //valor inicial del servo codo
+int valor_pinza = 90; //valor inicial del servo pinza
+
+int eepromEntrada; 
+
 int cont=0;
 int cont2=0;
 int cont3=0;
+
+/*
+ * Definicion de pines:
+ * Boton que controla el estado de ABORTAR: Pin 16
+ * Led que indica el estado del servo muneca(ledServo1): Pin 13
+ * Led que indica el estado del servo hombro(ledServo2): Pin 6
+ * Led que indica el estado del servo codo(ledServo3): Pin 7
+ * Led que indica el estado del servo pinza(ledServo4): Pin 11
+ * Led que indica el estado del motor a pasos(ledPasos): Pin 15
+ */
 int boton = 16;
 int ledServo1 = 13;
 int ledPasos = 15;
 int ledServo2 = 6;
 int ledServo3 = 7;
 int ledServo4 = 11;
-int duracion = 250; //Duración del sonido
-int fMin = 2000; //Frecuencia más baja que queremos emitir
-int fMax = 4000; //Frecuencia más alta que queremos emitir
-int i = 0;
-int buzzer = 15;
-int aut = 0;
+
 char addStatusSize = 0;
 byte statusSize;
 
 
 void setup() {
-  pinMode (boton, INPUT);
+   /*Parametros iniciales
+    * Definicion de pines de Servo motores
+    * muneca: Pin 10
+    * hombro: Pin 9
+    * codo: Pin 8
+    * pinza: Pin 12
+    * 
+    * Velocidad con la que avanzara el motor a pasos: 7
+    * 
+    * Se defines los LEDS como pin de salida
+    * Se define boton como pin de entrada
+    */
   input = 0;
-  //Parametros iniciales
   getStatusSize();
   statusSize=cont3;
   Serial.begin(9600);
-  muneca.attach(10); //Muñeca
-  hombro.attach(9); //Hombro
-  codo.attach(8); //Codo
-  pinza.attach(12); //Pinza
+  muneca.attach(10);
+  hombro.attach(9);
+  codo.attach(8);
+  pinza.attach(12);
+  vuelta.setSpeed(7);
   pinMode(ledServo1, OUTPUT);
   pinMode(ledServo2, OUTPUT);
   pinMode(ledServo3, OUTPUT);
   pinMode(ledServo4, OUTPUT);
   pinMode(ledPasos, OUTPUT);
-  pinMode (buzzer, OUTPUT); 
-  //pin configurado como salida
-  vuelta.setSpeed(7);
+  pinMode(boton, INPUT);
 }
 
 void loop() {
-  
   getStatusSize();
   statusSize=cont3;
   leer();
-
+  /*
+   * Si la interfaz grafica esta enviando datos asigna
+   * el valor recibido a la variable input.
+   * Al recibir 1: Mueve muñeca a la derecha
+   * Al recibir 2: Mueve muñeca a la izquierda
+   * Al recibir 3: Cierra pinza
+   * Al recibir 4: Abre pinza 
+   * Al recibir 5: Sube hombro
+   * Al recibir 6: Baja hombro
+   * Al recibir 7: Cerrar codo
+   * Al recibir 8: Bajar codo
+   * Al recibir 9: Movimiento automatico
+   * Al recibir a: Alinea muñeca derecha
+   * Al recibir b: Alinea muñeca izquierda
+   * Al recibir c: Mueve cintura 90° Derecha
+   * Al recibir d: Mueve cintura 180° Derecha
+   * Al recibir e: Mueve cintura 360° Derecha
+   * Al recibir f: Mueve cintura 90° Izquierda
+   * Al recibir g: Mueve cintura 180° Izquierda
+   * Al recibir h: Mueve cintura 360° Izquierda
+   * Al recibir x: Borra Secuencia
+   */
   if (Serial.available() > 0) {
     input = Serial.read();
      if (input == '1') {
@@ -108,6 +159,9 @@ void loop() {
     }else if (input == 'X') {
       borrar();
     }else if (input == '9') {
+      /*
+       * Estado inicial de los servos en 90°
+       */
       muneca.write(90);
       hombro.write(90);
       codo.write(90);
@@ -125,13 +179,17 @@ void loop() {
     }
     delay(1500);
   } else {
-
   }
- 
- 
 }
 void arriba(char entrada) {
-
+  /*
+   * Metodo para mover servo motores hacia arriba
+   * Recibe un valor dependiendo del servo que se
+   * desea mover. 
+   * Si se presiona el boton de abortar
+   * guarda el estado del servo motor y cuando se 
+   * vuelve a presionar el boton y continua en el estado que se quedo.
+   */
   if (entrada == '1') {
     for (; valor_muneca <= 160; valor_muneca++) {
       val= digitalRead(boton); // lee el estado del Boton
@@ -142,7 +200,7 @@ void arriba(char entrada) {
       old_val = val; // valor del antiguo estado
         if (state==1){
           break;
-        }else{
+      }else{
           muneca.write(valor_muneca);
           delay(5);
           digitalWrite(ledServo1, HIGH);
@@ -213,6 +271,11 @@ void arriba(char entrada) {
 
 
 void restablecer(char entrada){
+  /*
+   * Metodo para restablecer la muñeca 
+   * Si te envia A se restablece cuando esta a la derecha
+   * Si te envia B se restablece cuando esta a la izquierda
+   */
   if (entrada == 'A') {
 
     for (; valor_muneca >= 90; valor_muneca--) {
@@ -255,6 +318,14 @@ void restablecer(char entrada){
     
 
 void abajo(char entrada) {
+    /*
+   * Metodo para mover servo motores hacia abajo
+   * Recibe un valor dependiendo del servo que se
+   * desea mover. 
+   * Si se presiona el boton de abortar
+   * guarda el estado del servo motor y cuando se 
+   * vuelve a presionar el boton y continua en el estado que se quedo.
+   */
   if (entrada == '2') {
       for (; valor_muneca >= 30; valor_muneca--) {
       val= digitalRead(boton); // lee el estado del Boton
@@ -334,6 +405,9 @@ void abajo(char entrada) {
 }
 
 void automatico() {
+  /*
+   * 
+   */
  if (Serial.available() > 0) {
     input = Serial.read();
     cont = cont+1;
@@ -395,7 +469,10 @@ void automatico() {
 }
 
 void giroDer(char entrada){
-
+  /*
+   * Metodo para mover el motor a pasos a la derecha
+   * dependiendo de los grados que el usuario indique
+   */
   if(entrada == 'C'){
       val= digitalRead(boton); // lee el estado del Boton
       if ((val == HIGH) && (old_val == LOW)){
@@ -446,7 +523,10 @@ void giroDer(char entrada){
 }
 
 void giroIzq(char entrada){
-
+  /*
+   * Metodo para mover el motor a pasos a la izquierda
+   * dependiendo de los grados que el usuario indique
+   */
   if(entrada == 'F'){
       val= digitalRead(boton); // lee el estado del Boton
       if ((val == HIGH) && (old_val == LOW)){
@@ -498,6 +578,10 @@ void giroIzq(char entrada){
 }
 
  void getStatusSize( ){
+  /*
+   * Lee lo que tiene la memoria Prom
+   * y se lo asigna a valor.
+   */
   for(int i=0;i<=EEPROM.length();i++){
     byte valor = EEPROM.read(i);
     if(valor!=0){
@@ -508,6 +592,9 @@ void giroIzq(char entrada){
 
 
 void leer(){
+  /*
+   * 
+   */
   if(statusSize>0){
   while(cont2<=statusSize){
     cont2 = cont2+1;
@@ -570,6 +657,9 @@ void leer(){
 }
 
 void borrar(){
+  /*
+   * Metodo parar borrar la secuencia guardada.
+   */
   for (int i = 0 ; i < EEPROM.length() ; i++) {
     EEPROM.write(i, 0);
    }
