@@ -573,7 +573,7 @@ public class Interfaz extends JFrame {
         Interfaz obj = new Interfaz();
         obj.setDefaultCloseOperation(EXIT_ON_CLOSE);
         obj.setSize(1250, 600);
-        obj.setLocation(250, 50);
+        obj.setLocation(100, 50);
         obj.setResizable(false);
         obj.setVisible(true);
     }

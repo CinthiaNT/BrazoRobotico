@@ -62,7 +62,7 @@ void setup() {
   pinMode(ledPasos, OUTPUT);
   pinMode (buzzer, OUTPUT); 
   //pin configurado como salida
-  vuelta.setSpeed(5);
+  vuelta.setSpeed(7);
 }
 
 void loop() {
@@ -190,7 +190,7 @@ void arriba(char entrada) {
     digitalWrite(ledServo2, LOW);
   }
   if (entrada == '7') {
-    for (; valor_codo >= 85; valor_codo--) {
+    for (; valor_codo >= 80; valor_codo--) {
       val= digitalRead(boton); // lee el estado del Boton
       if ((val == HIGH) && (old_val == LOW)){
           state=1-state;
@@ -275,7 +275,7 @@ void abajo(char entrada) {
       digitalWrite(ledServo1, LOW);     
   }
   if (entrada == '4') {
-    for (; valor_pinza <= 120; valor_pinza++) {
+    for (; valor_pinza <= 100; valor_pinza++) {
             val= digitalRead(boton); // lee el estado del Boton
       if ((val == HIGH) && (old_val == LOW)){
           state=1-state;
