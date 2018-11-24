@@ -1,9 +1,9 @@
 
 # Brazo Robotico
-##Autores
-González Alcaraz Hernán Arturo
-Nava Torres Juana Cinthia Lizbeth
-Padilla Guerrero Paul Adrian 
+## Autores
+- González Alcaraz Hernán Arturo
+- Nava Torres Juana Cinthia Lizbeth
+- Padilla Guerrero Paul Adrian 
 
 ## Proposito del proyecto
 Desarrollar paso a paso una aplicacion para controlar y programar un Brazo Robot, simulando las funciones básicas de un robot industrial.
