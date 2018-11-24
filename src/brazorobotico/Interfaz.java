@@ -1,5 +1,32 @@
 package brazorobotico;
 
+
+/*
+ *   Instituto Tecnologico de León
+ *  Ingenieria en Sistemas Computacionales 
+ *  Autores: Gonzalez Alcaraz Hernan Arturo
+ *           Padilla Guerrero Paul Adrian
+ *           Nava Torres Juana Cinthia Lizbeth
+ *  Materia: Sistemas programables
+ *  Semestre: Septimo
+ *  Periodo: Agosto - Diciembre 2018
+ *  Fecha de entrega: 23 de Noviembre 2018
+*/
+
+/*
+    Se importan las librerias que haran la comunicacion
+    con arduino
+*/
+import com.panamahitek.PanamaHitek_Arduino;
+import com.panamahitek.ArduinoException;
+import com.panamahitek.PanamaHitek_MultiMessage;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
+
+/*
+    Librerias utilizadas en interfaz grafica
+*/
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,10 +37,6 @@ import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import com.panamahitek.PanamaHitek_Arduino;
-import com.panamahitek.ArduinoException;
-import com.panamahitek.PanamaHitek_MultiMessage;
 import java.awt.Font;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -21,14 +44,32 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
-import jssc.SerialPortException;
 
 public class Interfaz extends JFrame {
-
+    
+    /*
+    Se declaran los elementos a utilizar para la creacion de interfaz
+    grafica.
+    Los botones enviaran la informacion a arduino para generar 
+    movimeinto en los motores.
+    - 2 botones para la pinza: Abrir y cerrar.
+    - 3 botones para muñeca: Izquierda, derecha y restablecer.
+    - 2 botones para codo: subir y bajar.
+    - 2 botones para hombro: subir y bajar.
+    - 5 botones para motor: gira 90°,180°,360° y estos movimientos pueden ser
+        izquierda y derecha.
+    - 1 botones para generar secuencia.
+    - 1 botones para realizar automatico.
+    - 1 botones para borrar secuencia.
+    ---------------------------------------------------------------------------
+    Se declara una lista que sera la que guardara los valores de la secuencia
+    a generar.
+    
+    Se declaran los objetos de PanamaHitek para realizar la conexion con
+    arduino.
+    */
     private JButton cerrar_pinza, abrir_pinza, derecha_muneca, izquierda_muneca,
-            bajar_codo, cerrar_codo, bajar_hombro, subir_hombro,
+            bajar_codo, subir_codo, bajar_hombro, subir_hombro,
             generar, automatico, borrar, restablecer, pasos_90, pasos_180, pasos_360,
             pasos_derecha, pasos_izquierda;
     private JPanel panel;
@@ -47,6 +88,9 @@ public class Interfaz extends JFrame {
 
     public Interfaz() {
         super("Brazo Robotico");
+        /*
+        Se realiza la conexion con arduino
+        */
         arduino = new PanamaHitek_Arduino();
         multi = new PanamaHitek_MultiMessage(3, arduino);
         listener = new SerialPortEventListener() {
@@ -69,6 +113,9 @@ public class Interfaz extends JFrame {
         } catch (ArduinoException ex) {
             Logger.getLogger(ResourceBundle.Control.class.getName()).log(Level.SEVERE, null, ex);
         }
+        /*
+        Se delcarar los componentes necesarios para armar la interfaz grafica
+        */
         gem = false;
         sec = "";
         fuente = new Font("Arial", Font.BOLD, 20);
@@ -93,7 +140,7 @@ public class Interfaz extends JFrame {
         derecha_muneca = new JButton("Muñeca a la derecha");
         restablecer = new JButton("Alinear Muñeca");
         bajar_codo = new JButton("Bajar Codo");
-        cerrar_codo = new JButton("Subir Codo");
+        subir_codo = new JButton("Subir Codo");
         automatico = new JButton("Automatico");
         pasos_90 = new JButton("Gira 90°");
         pasos_180 = new JButton("Gira 180°");
@@ -129,9 +176,9 @@ public class Interfaz extends JFrame {
         bajar_codo.setBackground(Color.DARK_GRAY);
         bajar_codo.setFont(fuente1);
         bajar_codo.setForeground(Color.WHITE);
-        cerrar_codo.setBackground(Color.DARK_GRAY);
-        cerrar_codo.setFont(fuente1);
-        cerrar_codo.setForeground(Color.WHITE);
+        subir_codo.setBackground(Color.DARK_GRAY);
+        subir_codo.setFont(fuente1);
+        subir_codo.setForeground(Color.WHITE);
         pasos_90.setBackground(Color.DARK_GRAY);
         pasos_90.setFont(fuente1);
         pasos_90.setForeground(Color.WHITE);
@@ -161,7 +208,7 @@ public class Interfaz extends JFrame {
         restablecer.setBounds(600, 75, 210, 50);
         subir_hombro.setBounds(50, 225, 210, 50); //hombro
         bajar_hombro.setBounds(350, 225, 210, 50);
-        cerrar_codo.setBounds(50, 300, 210, 50);
+        subir_codo.setBounds(50, 300, 210, 50);
         bajar_codo.setBounds(350, 300, 210, 50);
         automatico.setBounds(50, 450, 210, 50);
         generar.setBounds(350, 450, 210, 50);
@@ -188,18 +235,21 @@ public class Interfaz extends JFrame {
         add(izquierda_muneca);
         add(bajar_hombro);
         add(derecha_muneca);
-        add(cerrar_codo);
+        add(subir_codo);
         add(bajar_codo);
         add(panel);
         add(automatico);
         add(generar);
         add(borrar);
         add(imagen);
-        //  Conection();
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente a la muñeca. 
+        */
         izquierda_muneca.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("SUBIENDO HOMBRO");
                 if (gem == true) {
                     sec = "2";
                     alin_mun = "izquierda";
@@ -223,6 +273,11 @@ public class Interfaz extends JFrame {
                 }
             }
         });
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente a la muñeca.
+        */
         derecha_muneca.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -250,6 +305,12 @@ public class Interfaz extends JFrame {
 
             }
         });
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente a la muñeca.Restablece el valor de la muñeca en su 
+        estado inicial.
+        */
         restablecer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -282,6 +343,11 @@ public class Interfaz extends JFrame {
 
             }
         });
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente a la pinza.
+        */
         abrir_pinza.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -306,6 +372,11 @@ public class Interfaz extends JFrame {
                 }
             }
         });
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente a la pinza. 
+        */
         cerrar_pinza.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -330,6 +401,11 @@ public class Interfaz extends JFrame {
                 }
             }
         });
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente al hombro.
+        */
         subir_hombro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -354,6 +430,11 @@ public class Interfaz extends JFrame {
                 }
             }
         });
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente al hombro. 
+        */
         bajar_hombro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -378,7 +459,12 @@ public class Interfaz extends JFrame {
                 }
             }
         });
-        cerrar_codo.addActionListener(new ActionListener() {
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente al codo. 
+        */
+        subir_codo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (gem == true) {
@@ -402,6 +488,11 @@ public class Interfaz extends JFrame {
                 }
             }
         });
+        /*
+        Al dar clic en este boton se lanza un evento que enviara un
+        identificador que correspondera a un valor para el servo motor 
+        correspondiente al codo.
+        */
         bajar_codo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -426,25 +517,42 @@ public class Interfaz extends JFrame {
                 }
             }
         });
+        /* 
+        Al dar clic en este boton se lanza un evento que envia el identificar
+        correspondiente a girar el motor a pasos en 90°.
+        */
         pasos_90.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 giro = "noventa";
             }
         });
+        /* 
+        Al dar clic en este boton se lanza un evento que envia el identificar
+        correspondiente a girar el motor a pasos en 180°.
+        */
         pasos_180.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 giro = "ciento";
             }
         });
+        /* 
+        Al dar clic en este boton se lanza un evento que envia el identificar
+        correspondiente a girar el motor a pasos en 360°.
+        */
         pasos_360.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 giro = "trescientos";
             }
         });
-
+        /* 
+        Al dar clic en este boton se lanza un evento que envia el identificar
+        correspondiente a girar el motor a pasos.
+        El moviemto sera a la derecha además de los grados que seleccionaste
+        con los botones anteriores.
+        */
         pasos_derecha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -481,7 +589,12 @@ public class Interfaz extends JFrame {
                 }
             }
         });
-
+        /* 
+        Al dar clic en este boton se lanza un evento que envia el identificar
+        correspondiente a girar el motor a pasos.
+        El moviemto sera a la derecha además de los grados que seleccionaste
+        con los botones anteriores.
+        */
         pasos_izquierda.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -518,7 +631,11 @@ public class Interfaz extends JFrame {
                 }
             }
         });
-
+        /*
+        Al dar clic en generar secuencia envia un identificar a arduino
+        para que se ejecute el metodo correspondiente de "generacion de 
+        secuencia"
+        */
         generar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -526,6 +643,11 @@ public class Interfaz extends JFrame {
                 JOptionPane.showMessageDialog(null, "Presione los botones para generar secuencia");
             }
         });
+        /*
+        Al dar clic en generar secuencia envia un identificar a arduino
+        para que se ejecute el metodo correspondiente de "eliminar secuencia".
+        Se limpia la lista.
+        */
         borrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -540,6 +662,9 @@ public class Interfaz extends JFrame {
                 gem = false;
             }
         });
+        /*Al dar clic en generar secuencia envia un identificar a arduino
+        para que se ejecute el metodo correspondiente de "automatico"
+        */
         automatico.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

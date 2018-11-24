@@ -406,6 +406,10 @@ void abajo(char entrada) {
 
 void automatico() {
   /*
+   * Se genera una secuencia automatica.
+   * 
+   * Lee lo que esta guardado en la memoria prom
+   * y el valor lo envia a los servo motores y motor a pasos
    * 
    */
  if (Serial.available() > 0) {
@@ -593,7 +597,11 @@ void giroIzq(char entrada){
 
 void leer(){
   /*
-   * 
+   * Si la memoria tiene guardado algun valor
+   * lo lee y termina hasta que ya no encuentra 
+   * datos por leer.
+   * Cada valor que lee lo guarda en una variable
+   * que compara con el identificador de cada motor a mover
    */
   if(statusSize>0){
   while(cont2<=statusSize){
@@ -659,6 +667,8 @@ void leer(){
 void borrar(){
   /*
    * Metodo parar borrar la secuencia guardada.
+   * Reestablece los valores de los servo motores
+   * en 90°, su posicion inicial.
    */
   for (int i = 0 ; i < EEPROM.length() ; i++) {
     EEPROM.write(i, 0);

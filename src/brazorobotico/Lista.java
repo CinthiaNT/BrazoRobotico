@@ -1,19 +1,23 @@
 
 package brazorobotico;
 
-/**
- *Instituto Tecnologico de Leon
- *Ingenieria en Sistemas Computacionales 
- * @authores: 
- * Gonzalez Alcaraz Hernan Arturo
- * Nava Torres Juana Cinthia Lizbeth
- * Padilla Guerrero Paul Adrian
- * "Brazo Robotico"
- * Martes 13 de Noviembre del 2018
- * Semestre Agosto - Diciembre 
- */
+/*
+ *   Instituto Tecnologico de León
+ *  Ingenieria en Sistemas Computacionales 
+ *  Autores: Gonzalez Alcaraz Hernan Arturo
+ *           Padilla Guerrero Paul Adrian
+ *           Nava Torres Juana Cinthia Lizbeth
+ *  Materia: Sistemas programables
+ *  Semestre: Septimo
+ *  Periodo: Agosto - Diciembre 2018
+ *  Fecha de entrega: 23 de Noviembre 2018
+*/
+
+/*
+* Se crea una clase llamada lista que recibe un entero
+* este valor lo agrega a la secuencia.
+*/
 public class Lista {
-     
      String secuencia;
  public Lista(String secuencia) {
      this.secuencia= secuencia;
