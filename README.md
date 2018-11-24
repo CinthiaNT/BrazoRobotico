@@ -1,14 +1,9 @@
 
 # Brazo Robotico
-## Software
-- Arduino IDE
-- Ubuntu 16.04
-- NetBeans IDE
-## Librerias
-- PanamaHitek
-- EEPROM
-- Stepper
-- Servo
+##Autores
+González Alcaraz Hernán Arturo
+Nava Torres Juana Cinthia Lizbeth
+Padilla Guerrero Paul Adrian 
 
 ## Proposito del proyecto
 Desarrollar paso a paso una aplicacion para controlar y programar un Brazo Robot, simulando las funciones básicas de un robot industrial.
@@ -31,8 +26,36 @@ En caso de existir un fallo de energia, al restablecerse la corriente el brazo r
 la aplicacion cerrada).
 
 ## Materiales
+- 1 Arduino UNO
+- 1 Protoboard
+- 1 Chasis de Brazo Robótico con 5 Grados de Libertad
+- 4 Servomotores
+- 1 Motor a Pasos
+- 1 Módulo Controlador del Motor a Pasos (Puente H)
+- 5 Leds de Colores
+- 1 Push Button
+- Cables conectores
 
-## Integrantes del equipo
-González Alcaraz Hernán Arturo
-Nava Torres Juana Cinthia Lizbeth
-Padilla Guerrero Paul Adrian 
+## Software
+- Arduino IDE
+- Ubuntu 16.04
+- NetBeans IDE
+## Librerias
+- PanamaHitek
+- EEPROM
+- Stepper
+- Servo
+
+## Brazo Robotico Funcionando
+- Abre pinza 
+![Imagen](brazo5.jpg)
+- Cierra pinza para recoger el objeto
+![Imagen](brazo4.jpg)
+- Levanta el objeto
+![Imagen](brazoz1.jpg)
+![Imagen](brazo3.jpg)
+- Mueve muñeca para mostrar objeto
+![Imagen](brazo2.jpg)
+
+
+
