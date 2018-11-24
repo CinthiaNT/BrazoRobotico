@@ -50,12 +50,12 @@ la aplicacion cerrada).
 - Abre pinza 
 ![Imagen](brazo5.jpg)
 - Cierra pinza para recoger el objeto
-![Imagen](brazo4.jpg)
+![Imagen](brazo2.jpg)
 - Levanta el objeto
 ![Imagen](brazoz1.jpg)
 ![Imagen](brazo3.jpg)
 - Mueve muñeca para mostrar objeto
-![Imagen](brazo2.jpg)
+![Imagen](brazo4.jpg)
 
 
 
