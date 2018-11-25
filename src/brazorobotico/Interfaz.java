@@ -632,9 +632,8 @@ public class Interfaz extends JFrame {
             }
         });
         /*
-        Al dar clic en generar secuencia envia un identificar a arduino
-        para que se ejecute el metodo correspondiente de "generacion de 
-        secuencia"
+        Al dar clic en generar se cambia el estado de gem a true para ppoder
+        realizar un automatico
         */
         generar.addActionListener(new ActionListener() {
             @Override

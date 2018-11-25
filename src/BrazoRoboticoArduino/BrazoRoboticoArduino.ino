@@ -583,8 +583,8 @@ void giroIzq(char entrada){
 
  void getStatusSize( ){
   /*
-   * Lee lo que tiene la memoria Prom
-   * y se lo asigna a valor.
+   * Lee cuantos registos estan
+   * guardados en la memoria prom
    */
   for(int i=0;i<=EEPROM.length();i++){
     byte valor = EEPROM.read(i);
@@ -597,11 +597,10 @@ void giroIzq(char entrada){
 
 void leer(){
   /*
-   * Si la memoria tiene guardado algun valor
-   * lo lee y termina hasta que ya no encuentra 
-   * datos por leer.
-   * Cada valor que lee lo guarda en una variable
-   * que compara con el identificador de cada motor a mover
+   * Recibe una lista de valores
+   * desde la interfaz grafica y los
+   * escribe en la memoria prom
+   * 
    */
   if(statusSize>0){
   while(cont2<=statusSize){
